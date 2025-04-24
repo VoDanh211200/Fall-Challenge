@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     private Vector2 ballStartPos;
     private float distanceToCamera;
     private float lastYPos;
-    private float distanceToNewSpaw = 4f;
+    private float distanceToNewSpaw = 5f;
     private float travelDistance;
     private List<GameObject> spawnedTraps = new List<GameObject>();
 
@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         {
             Vector3 oldCamPos = Camera.main.transform.position;
             Vector3 newCamPos = new Vector3(oldCamPos.x, oldCamPos.y - 1f, oldCamPos.z);
-            Camera.main.transform.position = Vector3.Lerp(oldCamPos, newCamPos, 2.5f * Time.deltaTime);
+            Camera.main.transform.position = Vector3.Lerp(oldCamPos, newCamPos, 3f * Time.deltaTime);
         }
 
         travelDistance = lastYPos - ball.transform.position.y;

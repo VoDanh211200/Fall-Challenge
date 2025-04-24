@@ -473,9 +473,14 @@ MonoBehaviour:
   livesText: {fileID: 1502810693}
   ball: {fileID: 1876798773}
   trapPrefabs:
+  - {fileID: 3786655877693898791, guid: 7d63f1a305f34714c87c9242de59b355, type: 3}
+  - {fileID: 1997982731080578154, guid: 33294cca6aa4a434caf7f2907f6b1ace, type: 3}
+  - {fileID: 4944219142562991738, guid: 3e2297efeaa7ac941b724b429fda953a, type: 3}
   - {fileID: 919099477524335279, guid: 332cf8ddfaa0f35429c7515771cba70d, type: 3}
   - {fileID: 7034847495996777514, guid: c66297438453f134187e70acfe912ef0, type: 3}
   - {fileID: 2051145098780142350, guid: 4bf5002678ffb6a4ab6acd9efaaf79df, type: 3}
+  - {fileID: 77549557952729938, guid: a1d015832a141b94681f271604de977c, type: 3}
+  - {fileID: 4251256980141422394, guid: c70ca066356199749876231be3bc9daf, type: 3}
   spawPoint: {fileID: 1916897812}
 --- !u!114 &431931548
 MonoBehaviour:
@@ -1488,7 +1493,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0.74
+  m_GravityScale: 0.5
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
