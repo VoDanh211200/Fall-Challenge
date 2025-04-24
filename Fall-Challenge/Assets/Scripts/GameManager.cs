@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public Text scoreText, livesText;
     public GameObject ball;
+    public List<GameObject> trapPrefabs = new List<GameObject>();
+    public Transform spawPoint;
 
     private int score;
     private int lives = 3;
@@ -16,6 +18,9 @@ public class GameManager : MonoBehaviour
     private Vector2 ballStartPos;
     private float distanceToCamera;
     private float lastYPos;
+    private float distanceToNewSpaw = 4f;
+    private float travelDistance;
+    private List<GameObject> spawnedTraps = new List<GameObject>();
 
     void Awake()
     {
@@ -29,6 +34,7 @@ public class GameManager : MonoBehaviour
         ballStartPos = ball.transform.position;
         distanceToCamera = ballStartPos.y;
         lastYPos = ballStartPos.y;
+        StartCoroutine(DeleteTraps());
     }
 
     private void LateUpdate()
@@ -37,7 +43,52 @@ public class GameManager : MonoBehaviour
         {
             Vector3 oldCamPos = Camera.main.transform.position;
             Vector3 newCamPos = new Vector3(oldCamPos.x, oldCamPos.y - 1f, oldCamPos.z);
-            Camera.main.transform.position = Vector3.Lerp(oldCamPos, newCamPos, 2f * Time.deltaTime);
+            Camera.main.transform.position = Vector3.Lerp(oldCamPos, newCamPos, 2.5f * Time.deltaTime);
+        }
+
+        travelDistance = lastYPos - ball.transform.position.y;
+        if (travelDistance >= distanceToNewSpaw)
+        {
+            lastYPos = ball.transform.position.y;
+            travelDistance = 0;
+            CreateNewTrap();
+        }
+    }
+
+    private void CreateNewTrap()
+    {
+        int index = Random.Range(0, trapPrefabs.Count - 1);
+        GameObject newTrap = Instantiate(trapPrefabs[index], spawPoint.position, Quaternion.identity);
+        spawnedTraps.Add(newTrap);
+    }
+
+    private void DeleteTrapsAboveCam(float distance)
+    {
+        for (int i = spawnedTraps.Count - 1; i >= 0; i--)
+        {
+            if (spawnedTraps[i].transform.position.y > Camera.main.transform.position.y + distance)
+            {
+                Destroy(spawnedTraps[i]);
+                spawnedTraps.RemoveAt(i);
+            }
+        }
+    }
+
+    private void DeleteAllTraps()
+    {
+        for (int i = spawnedTraps.Count - 1; i >= 0; i--)
+        {
+            Destroy(spawnedTraps[i]);
+            spawnedTraps.RemoveAt(i);
+        }
+    }
+
+    private IEnumerator DeleteTraps()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(5f);
+            DeleteTrapsAboveCam(5f);
         }
     }
 
@@ -48,11 +99,14 @@ public class GameManager : MonoBehaviour
         ballRb.velocity = Vector2.zero;
 
         lives--;
+        DeleteTrapsAboveCam(0);
         UpdateTextElements();
 
         if (lives <= 0)
         {
             ballRb.isKinematic = true;
+            DeleteAllTraps();
+            StopCoroutine(DeleteTraps());
         }
     }
 
@@ -62,7 +116,7 @@ public class GameManager : MonoBehaviour
         UpdateTextElements();
     }
 
-    void UpdateTextElements()
+    private void UpdateTextElements()
     {
         scoreText.text = "Score: " + score.ToString("D4");
         livesText.text = "Lives: " + lives;

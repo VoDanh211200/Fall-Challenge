@@ -471,6 +471,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreText: {fileID: 99966064}
   livesText: {fileID: 1502810693}
+  ball: {fileID: 1876798773}
+  trapPrefabs:
+  - {fileID: 919099477524335279, guid: 332cf8ddfaa0f35429c7515771cba70d, type: 3}
+  - {fileID: 7034847495996777514, guid: c66297438453f134187e70acfe912ef0, type: 3}
+  - {fileID: 2051145098780142350, guid: 4bf5002678ffb6a4ab6acd9efaaf79df, type: 3}
+  spawPoint: {fileID: 1916897812}
 --- !u!114 &431931548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1482,7 +1488,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0.74
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -1595,7 +1601,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1916897811}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.9192622, y: -5.46, z: 11}
+  m_LocalPosition: {x: -2, y: -5.5, z: 11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
