@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public GameObject ball;
     public List<GameObject> trapPrefabs = new List<GameObject>();
     public Transform spawPoint;
+    public GameObject gameoverPanel;
 
     private int score;
     private int lives = 3;
@@ -29,6 +30,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        gameoverPanel.SetActive(false);
         UpdateTextElements();
         ballRb = ball.GetComponent<Rigidbody2D>();
         ballStartPos = ball.transform.position;
@@ -107,6 +109,7 @@ public class GameManager : MonoBehaviour
             ballRb.isKinematic = true;
             DeleteAllTraps();
             StopCoroutine(DeleteTraps());
+            gameoverPanel.SetActive(true);
         }
     }
 
