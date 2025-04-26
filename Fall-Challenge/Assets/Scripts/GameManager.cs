@@ -60,7 +60,8 @@ public class GameManager : MonoBehaviour
     private void CreateNewTrap()
     {
         int index = Random.Range(0, trapPrefabs.Count - 1);
-        GameObject newTrap = Instantiate(trapPrefabs[index], spawPoint.position, Quaternion.identity);
+        Vector3 spawPos = new(-2f, lastYPos - distanceToNewSpaw, 1);
+        GameObject newTrap = Instantiate(trapPrefabs[index], spawPos, Quaternion.identity);
         spawnedTraps.Add(newTrap);
     }
 
