@@ -7,6 +7,14 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public enum GameModes
+    {
+        LEVEL,
+        ENDURANCE
+    }
+
+    public GameModes gameMode;
+
     public Text scoreText, livesText;
     public GameObject ball;
     public List<GameObject> trapPrefabs = new List<GameObject>();
@@ -31,29 +39,36 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         gameoverPanel.SetActive(false);
-        UpdateTextElements();
-        ballRb = ball.GetComponent<Rigidbody2D>();
-        ballStartPos = ball.transform.position;
-        distanceToCamera = ballStartPos.y;
-        lastYPos = ballStartPos.y;
-        StartCoroutine(DeleteTraps());
+
+        if (gameMode == GameModes.ENDURANCE)
+        {
+            StartCoroutine(DeleteTraps());
+            UpdateTextElements();
+            ballRb = ball.GetComponent<Rigidbody2D>();
+            ballStartPos = ball.transform.position;
+            distanceToCamera = ballStartPos.y;
+            lastYPos = ballStartPos.y;
+        }
     }
 
     private void LateUpdate()
     {
-        if (ball.transform.position.y <= Camera.main.transform.position.y)
+        if (gameMode == GameModes.ENDURANCE)
         {
-            Vector3 oldCamPos = Camera.main.transform.position;
-            Vector3 newCamPos = new Vector3(oldCamPos.x, oldCamPos.y - 1f, oldCamPos.z);
-            Camera.main.transform.position = Vector3.Lerp(oldCamPos, newCamPos, 3f * Time.deltaTime);
-        }
+            if (ball.transform.position.y <= Camera.main.transform.position.y)
+            {
+                Vector3 oldCamPos = Camera.main.transform.position;
+                Vector3 newCamPos = new Vector3(oldCamPos.x, oldCamPos.y - 1f, oldCamPos.z);
+                Camera.main.transform.position = Vector3.Lerp(oldCamPos, newCamPos, 3f * Time.deltaTime);
+            }
 
-        travelDistance = lastYPos - ball.transform.position.y;
-        if (travelDistance >= distanceToNewSpaw)
-        {
-            lastYPos = ball.transform.position.y;
-            travelDistance = 0;
-            CreateNewTrap();
+            travelDistance = lastYPos - ball.transform.position.y;
+            if (travelDistance >= distanceToNewSpaw)
+            {
+                lastYPos = ball.transform.position.y;
+                travelDistance = 0;
+                CreateNewTrap();
+            }
         }
     }
 
@@ -97,19 +112,27 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        ballStartPos.y = Camera.main.transform.position.y + distanceToCamera;
-        ball.transform.position = ballStartPos;
-        ballRb.velocity = Vector2.zero;
-
-        lives--;
-        DeleteTrapsAboveCam(0);
-        UpdateTextElements();
-
-        if (lives <= 0)
+        if (gameMode == GameModes.ENDURANCE)
         {
-            ballRb.isKinematic = true;
-            DeleteAllTraps();
-            StopCoroutine(DeleteTraps());
+            ballStartPos.y = Camera.main.transform.position.y + distanceToCamera;
+            ball.transform.position = ballStartPos;
+            ballRb.velocity = Vector2.zero;
+
+            lives--;
+            DeleteTrapsAboveCam(0);
+            UpdateTextElements();
+
+            if (lives <= 0)
+            {
+                ballRb.isKinematic = true;
+                DeleteAllTraps();
+                StopCoroutine(DeleteTraps());
+                gameoverPanel.SetActive(true);
+            }
+        }
+
+        if (gameMode == GameModes.LEVEL)
+        {
             gameoverPanel.SetActive(true);
         }
     }
