@@ -629,9 +629,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4320e2ad78b09f429e9f8093ab2b7d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameMode: 1
+  ball: {fileID: 1876798773}
+  fx_Destroy: {fileID: 3608958671517727235, guid: ec49b1c3a64c63b4e95c155dfe351b2e, type: 3}
   scoreText: {fileID: 99966064}
   livesText: {fileID: 1502810693}
-  ball: {fileID: 1876798773}
   trapPrefabs:
   - {fileID: 3786655877693898791, guid: 7d63f1a305f34714c87c9242de59b355, type: 3}
   - {fileID: 1997982731080578154, guid: 33294cca6aa4a434caf7f2907f6b1ace, type: 3}
@@ -643,6 +645,7 @@ MonoBehaviour:
   - {fileID: 4251256980141422394, guid: c70ca066356199749876231be3bc9daf, type: 3}
   spawPoint: {fileID: 1916897812}
   gameoverPanel: {fileID: 393649332}
+  winPanel: {fileID: 0}
 --- !u!114 &431931548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -656,7 +659,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dotPrefab: {fileID: 8807698422659193202, guid: a7624f9695621ca45b5e0cf19381455f, type: 3}
-  gameoverPanel: {fileID: 393649332}
 --- !u!4 &431931549
 Transform:
   m_ObjectHideFlags: 0

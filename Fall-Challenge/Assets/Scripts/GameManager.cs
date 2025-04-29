@@ -14,12 +14,17 @@ public class GameManager : MonoBehaviour
     }
 
     public GameModes gameMode;
-
-    public Text scoreText, livesText;
     public GameObject ball;
+    public GameObject fx_Destroy;
+
+    [Header("ENDURANCE")]
+    public Text scoreText, livesText;
     public List<GameObject> trapPrefabs = new List<GameObject>();
     public Transform spawPoint;
     public GameObject gameoverPanel;
+
+    [Header("LEVEL")]
+    public GameObject winPanel;
 
     private int score;
     private int lives = 3;
@@ -39,15 +44,19 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         gameoverPanel.SetActive(false);
+        ballRb = ball.GetComponent<Rigidbody2D>();
 
         if (gameMode == GameModes.ENDURANCE)
         {
             StartCoroutine(DeleteTraps());
             UpdateTextElements();
-            ballRb = ball.GetComponent<Rigidbody2D>();
             ballStartPos = ball.transform.position;
             distanceToCamera = ballStartPos.y;
             lastYPos = ballStartPos.y;
+        }
+        else
+        {
+            winPanel.SetActive(false);
         }
     }
 
@@ -114,6 +123,7 @@ public class GameManager : MonoBehaviour
     {
         if (gameMode == GameModes.ENDURANCE)
         {
+            Instantiate(fx_Destroy, ball.transform.position, Quaternion.identity);
             ballStartPos.y = Camera.main.transform.position.y + distanceToCamera;
             ball.transform.position = ballStartPos;
             ballRb.velocity = Vector2.zero;
@@ -133,8 +143,15 @@ public class GameManager : MonoBehaviour
 
         if (gameMode == GameModes.LEVEL)
         {
+            Instantiate(fx_Destroy, ball.transform.position, Quaternion.identity);
+            ball.SetActive(false);
             gameoverPanel.SetActive(true);
         }
+    }
+
+    public void WinGame()
+    {
+        winPanel.SetActive(true);
     }
 
     public void AddScore()

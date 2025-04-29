@@ -5,11 +5,10 @@ using UnityEngine;
 public class Pen : MonoBehaviour
 {
     public GameObject dotPrefab;
-    public GameObject gameoverPanel;
 
     void Update()
     {
-        if (Input.GetMouseButton(0) && gameoverPanel.activeSelf == false)
+        if (Input.GetMouseButton(0) && !GameManager.Instance.gameoverPanel.activeSelf)
         {
             Vector2 mousePis = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
             Vector2 objPos = Camera.main.ScreenToWorldPoint(mousePis);
